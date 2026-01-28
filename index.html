@@ -3,105 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deity | Polymath & Strategist</title>
+    <title>Deity | Polymath & Systems Architect</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <style>
-        :root {
-            --gold: #d4af37;
-            --matte-black: #080808;
-            --charcoal: #121212;
-        }
-
-        body {
-            background-color: var(--matte-black);
-            color: #e5e7eb;
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            overflow-x: hidden;
-        }
-
+        :root { --gold: #d4af37; --matte: #050505; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--matte); color: #e5e7eb; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         .serif { font-family: 'Playfair Display', serif; }
         
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: var(--gold); }
-
-        /* Background Glow Mesh */
+        /* Subtle Background */
         .bg-mesh {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle at 15% 15%, rgba(212, 175, 55, 0.07) 0%, transparent 35%),
-                radial-gradient(circle at 85% 85%, rgba(255, 255, 255, 0.03) 0%, transparent 35%);
+            inset: 0;
+            background: radial-gradient(circle at 50% -20%, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
             z-index: -1;
         }
 
-        /* Entrance Overlay Styling */
-        #entrance-overlay {
-            background-color: #050505;
-            transition: opacity 1.2s cubic-bezier(0.65, 0, 0.35, 1), visibility 1.2s;
-        }
+        /* Entrance Logic */
+        #entrance-overlay { background: #030303; transition: opacity 1.2s ease, visibility 1.2s; }
+        .content-hidden { opacity: 0; transform: scale(0.99); pointer-events: none; }
+        .content-visible { opacity: 1; transform: scale(1); transition: all 1.8s cubic-bezier(0.16, 1, 0.3, 1); }
 
-        /* Glassmorphism */
-        .glass {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
+        /* Navigation */
+        .glass-nav { background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
+        .nav-link { letter-spacing: 0.3em; transition: 0.4s; opacity: 0.5; }
+        .nav-link:hover { opacity: 1; color: var(--gold); }
 
-        /* Navigation Hover Effect */
-        .nav-link {
-            position: relative;
-            transition: color 0.3s ease;
+        /* Unified Grid Cards */
+        .discipline-card {
+            border-left: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 2rem;
+            transition: 0.5s;
         }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0; height: 1px;
-            bottom: -4px; left: 0;
-            background-color: var(--gold);
-            transition: width 0.4s ease;
-        }
-        .nav-link:hover::after { width: 100%; }
-        .nav-link:hover { color: var(--gold); }
-
-        /* Hidden class for main content */
-        .content-hidden {
-            opacity: 0;
-            transform: scale(0.98);
-            pointer-events: none;
-        }
-        
-        .content-visible {
-            opacity: 1;
-            transform: scale(1);
-            transition: all 1.5s cubic-bezier(0.22, 1, 0.36, 1);
-        }
+        .discipline-card:hover { border-left: 1px solid var(--gold); background: rgba(212, 175, 55, 0.02); }
     </style>
 </head>
 <body class="overflow-hidden">
 
-    <div id="entrance-overlay" class="fixed inset-0 z-[100] flex flex-col justify-center items-center">
-        <div class="text-center mb-16" data-aos="fade-in">
-            <h2 class="serif text-white text-3xl tracking-[0.6em] uppercase opacity-80">Deity</h2>
-            <p class="text-[9px] tracking-[0.4em] text-white/30 mt-4 uppercase font-light">Verification Required</p>
+    <div id="entrance-overlay" class="fixed inset-0 z-[100] flex flex-col justify-center items-center px-6">
+        <div class="text-center mb-12">
+            <h2 class="serif text-white text-2xl tracking-[0.8em] uppercase">DEITY</h2>
         </div>
-
-        <div class="relative w-80 h-20 bg-white/5 rounded-full border border-white/10 p-2 backdrop-blur-md shadow-2xl">
-            <div id="slider-text" class="absolute inset-0 flex items-center justify-center text-[10px] tracking-[0.4em] uppercase text-white/40 pointer-events-none select-none">
-                Slide to Access
-            </div>
-            <div id="slider-handle" class="w-16 h-16 bg-[#d4af37] rounded-full flex items-center justify-center cursor-grab active:cursor-grabbing shadow-[0_0_25px_rgba(212,175,55,0.4)] transition-transform duration-100 ease-out">
-                <i data-lucide="chevron-right" class="text-black w-6 h-6"></i>
+        <div class="relative w-72 h-16 bg-white/5 rounded-full border border-white/10 p-1">
+            <div id="slider-text" class="absolute inset-0 flex items-center justify-center text-[9px] tracking-[0.4em] uppercase text-white/30 pointer-events-none">Slide to Access</div>
+            <div id="slider-handle" class="w-14 h-14 bg-[#d4af37] rounded-full flex items-center justify-center cursor-grab active:cursor-grabbing">
+                <i data-lucide="chevron-right" class="text-black w-5 h-5"></i>
             </div>
         </div>
     </div>
@@ -110,77 +61,92 @@
 
     <main id="main-content" class="content-hidden">
         
-        <nav class="fixed top-0 w-full z-50 glass">
-            <div class="max-w-7xl mx-auto px-8 h-24 flex items-center justify-between">
-                <a href="#" class="serif text-2xl tracking-[0.4em] text-[#d4af37]">DEITY</a>
-                <div class="hidden md:flex space-x-12 text-[10px] uppercase tracking-[0.3em] font-light">
-                    <a href="#about" class="nav-link">Legacy</a>
-                    <a href="#projects" class="nav-link">Expertise</a>
+        <nav class="fixed top-0 w-full z-50 glass-nav">
+            <div class="max-w-[1440px] mx-auto px-8 md:px-20 h-24 flex items-center justify-between">
+                <a href="#" class="serif text-xl tracking-[0.5em] text-[#d4af37]">DEITY</a>
+                <div class="hidden md:flex space-x-12 text-[9px] uppercase font-light">
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#expertise" class="nav-link">Disciplines</a>
                     <a href="mailto:deityxterror@gmail.com" class="nav-link">Contact</a>
                 </div>
             </div>
         </nav>
 
-        <section class="h-screen flex flex-col justify-center items-center px-6 relative">
+        <section class="min-h-screen flex flex-col justify-center items-center px-10">
             <div class="text-center">
-                <h1 class="serif text-7xl md:text-[12rem] text-white leading-none mb-8 tracking-tighter" data-aos="fade-up" data-aos-duration="2000">
+                <h1 class="serif text-7xl md:text-[11rem] text-white leading-none mb-10 tracking-tight" data-aos="fade-up">
                     Deity
                 </h1>
-                <div class="w-24 h-[1px] bg-[#d4af37] mx-auto mb-8" data-aos="width" data-aos-duration="1500"></div>
-                <p class="text-[#d4af37] text-xs md:text-sm tracking-[0.4em] uppercase font-light max-w-2xl leading-relaxed" data-aos="fade-up" data-aos-delay="500">
-                    Polymath <span class="text-white/20 mx-2">|</span> 
-                    Chess Master <span class="text-white font-bold">(ELO: 2550+)</span> <span class="text-white/20 mx-2">|</span> 
-                    Developer <span class="text-white/20 mx-2">|</span> 
-                    Strategist
+                <p class="text-white/40 text-[10px] md:text-[11px] tracking-[0.5em] uppercase font-light leading-relaxed max-w-5xl mx-auto" data-aos="fade-up" data-aos-delay="400">
+                    INTJ <span class="mx-3">|</span> 
+                    Full-stack Developer <span class="mx-3">|</span> 
+                    Systems Architect <span class="mx-3">|</span> 
+                    Chessmaster <span class="mx-3">|</span> 
+                    Polymath <span class="mx-3">|</span> 
+                    Philosopher <span class="mx-3">|</span> 
+                    Inquisitive
                 </p>
-            </div>
-            <div class="absolute bottom-12 animate-bounce text-white/10">
-                <i data-lucide="mouse" stroke-width="1"></i>
             </div>
         </section>
 
-        <section id="about" class="py-48 px-6 bg-white/[0.01]">
-            <div class="max-w-5xl mx-auto">
-                <div class="grid md:grid-cols-12 gap-16">
+        <section id="expertise" class="py-32 px-10 md:px-20 border-t border-white/5">
+            <div class="max-w-[1440px] mx-auto">
+                <div class="grid md:grid-cols-3 gap-12">
+                    
+                    <div class="discipline-card" data-aos="fade-up" data-aos-delay="100">
+                        <span class="text-[10px] tracking-[0.4em] text-[#d4af37] uppercase block mb-6">Development</span>
+                        <h3 class="serif text-3xl text-white mb-6">Systems Architecture</h3>
+                        <p class="text-gray-500 font-light leading-relaxed">Engineering high-frequency bots and luxury digital infrastructures with absolute code integrity.</p>
+                    </div>
+
+                    <div class="discipline-card" data-aos="fade-up" data-aos-delay="200">
+                        <span class="text-[10px] tracking-[0.4em] text-[#d4af37] uppercase block mb-6">Strategy</span>
+                        <h3 class="serif text-3xl text-white mb-6">Chess Mastery</h3>
+                        <p class="text-gray-500 font-light leading-relaxed">Maintaining a 2550+ ELO through deep calculation—applying Grandmaster logic to business endgames.</p>
+                    </div>
+
+                    <div class="discipline-card" data-aos="fade-up" data-aos-delay="300">
+                        <span class="text-[10px] tracking-[0.4em] text-[#d4af37] uppercase block mb-6">Enterprise</span>
+                        <h3 class="serif text-3xl text-white mb-6">Rental Portfolios</h3>
+                        <p class="text-gray-500 font-light leading-relaxed">Curating high-end rental assets and business models that prioritize premium user experiences.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-40 px-10 md:px-20 bg-white/[0.01]">
+            <div class="max-w-[1440px] mx-auto">
+                <div class="grid md:grid-cols-12">
                     <div class="md:col-span-5" data-aos="fade-right">
-                        <h2 class="serif text-5xl text-white italic leading-tight">Mastery in <br><span class="text-[#d4af37]">Every Dimension.</span></h2>
+                        <h2 class="serif text-5xl md:text-7xl text-white italic">The Polymath <br>Perspective.</h2>
                     </div>
-                    <div class="md:col-span-7 space-y-8 text-gray-400 font-light leading-relaxed text-lg" data-aos="fade-left">
-                        <p>
-                            Driven by a relentless pursuit of excellence, I operate as a polymath with a proven track record across chess, technology, and business. With a Grandmaster-tier ELO of 2550+, my approach to every venture is defined by calculation and long-term strategy.
+                    <div class="md:col-span-6 md:col-start-7 space-y-10" data-aos="fade-up">
+                        <p class="text-xl md:text-2xl text-gray-300 font-light leading-relaxed">
+                            True mastery is the ability to synthesize disparate fields into a single, cohesive strategy. 
                         </p>
-                        <p>
-                            From architecting high-frequency bots and luxury web experiences to managing a portfolio of rental businesses, I bridge the gap between technical complexity and professional luxury.
+                        <p class="text-gray-500 font-light leading-relaxed text-lg">
+                            Operating as <span class="text-white italic">Deity_Terror</span>, I bridge the gap between technical complexity and philosophical depth. Whether it is code, commerce, or chess, the goal remains the same: the pursuit of the "Perfect Move."
                         </p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <footer class="py-40 text-center relative overflow-hidden">
-            <div class="relative z-10" data-aos="zoom-in">
-                <h3 class="serif text-6xl text-white mb-16 italic">Let's move.</h3>
+        <footer class="py-32 px-10 border-t border-white/5">
+            <div class="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
+                <div class="text-center md:text-left">
+                    <p class="serif text-3xl text-white italic mb-2">Connect.</p>
+                    <p class="text-gray-500 text-sm font-light tracking-widest uppercase">deityxterror@gmail.com</p>
+                </div>
                 
-                <div class="flex justify-center space-x-12 mb-16">
-                    <a href="https://instagram.com/deity_terror" class="text-white/30 hover:text-[#d4af37] transition-all transform hover:scale-125">
-                        <i data-lucide="instagram"></i>
-                    </a>
-                    <a href="https://linkedin.com/in/deity_terror" class="text-white/30 hover:text-[#d4af37] transition-all transform hover:scale-125">
-                        <i data-lucide="linkedin"></i>
-                    </a>
-                    <a href="mailto:deityxterror@gmail.com" class="text-white/30 hover:text-[#d4af37] transition-all transform hover:scale-125">
-                        <i data-lucide="mail"></i>
-                    </a>
+                <div class="flex space-x-12">
+                    <a href="https://instagram.com/deity_terror" class="text-white/20 hover:text-[#d4af37] transition-all transform hover:scale-110"><i data-lucide="instagram"></i></a>
+                    <a href="https://linkedin.com/in/deity_terror" class="text-white/20 hover:text-[#d4af37] transition-all transform hover:scale-110"><i data-lucide="linkedin"></i></a>
+                    <a href="mailto:deityxterror@gmail.com" class="text-white/20 hover:text-[#d4af37] transition-all transform hover:scale-110"><i data-lucide="mail"></i></a>
                 </div>
 
-                <a href="mailto:deityxterror@gmail.com" 
-                   class="inline-block px-14 py-6 border border-[#d4af37]/40 text-[#d4af37] rounded-full uppercase text-[11px] tracking-[0.5em] hover:bg-[#d4af37] hover:text-black transition-all duration-700 font-bold shadow-lg">
-                    Secure Consultation
-                </a>
-                
-                <p class="mt-32 text-[8px] tracking-[0.8em] text-white/10 uppercase">
-                    © 2026 Deity Terror / Calculated Excellence
-                </p>
+                <p class="text-[8px] tracking-[0.8em] text-white/10 uppercase">© 2026 Deity_Terror</p>
             </div>
         </footer>
 
@@ -188,76 +154,48 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // 1. Initialize Icons
         lucide.createIcons();
-
-        // 2. Slider Logic
         const handle = document.getElementById('slider-handle');
         const container = handle.parentElement;
         const overlay = document.getElementById('entrance-overlay');
         const mainContent = document.getElementById('main-content');
         const sliderText = document.getElementById('slider-text');
-        
         let isDragging = false;
         let startX = 0;
-        const maxSlide = container.offsetWidth - handle.offsetWidth - 16; // 16 for padding
+        const maxSlide = container.offsetWidth - handle.offsetWidth - 10;
 
-        const startDrag = (e) => {
-            isDragging = true;
-            startX = (e.pageX || e.touches[0].pageX) - handle.offsetLeft;
-            handle.style.transition = 'none';
-        };
-
+        const startDrag = (e) => { isDragging = true; startX = (e.pageX || e.touches[0].pageX) - handle.offsetLeft; handle.style.transition = 'none'; };
         const moveDrag = (e) => {
             if (!isDragging) return;
             let x = (e.pageX || e.touches[0].pageX) - startX;
-            if (x < 0) x = 0;
-            if (x > maxSlide) x = maxSlide;
+            if (x < 0) x = 0; if (x > maxSlide) x = maxSlide;
             handle.style.transform = `translateX(${x}px)`;
-            
-            // Fade out the text as we slide
             sliderText.style.opacity = (1 - (x / maxSlide)) * 0.4;
         };
-
         const endDrag = () => {
-            if (!isDragging) return;
-            isDragging = false;
-            
+            if (!isDragging) return; isDragging = false;
             const currentX = new WebKitCSSMatrix(getComputedStyle(handle).transform).m41;
-
-            if (currentX > maxSlide * 0.85) {
-                // SUCCESS
-                handle.style.transition = 'transform 0.3s ease';
+            if (currentX > maxSlide * 0.9) {
+                handle.style.transition = 'all 0.4s ease';
                 handle.style.transform = `translateX(${maxSlide}px)`;
-                handle.style.backgroundColor = '#ffffff';
-                
-                // Transition to Main Site
                 overlay.style.opacity = '0';
                 setTimeout(() => {
                     overlay.style.visibility = 'hidden';
                     mainContent.classList.remove('content-hidden');
                     mainContent.classList.add('content-visible');
                     document.body.classList.remove('overflow-hidden');
-                    // Initialize AOS after reveal
-                    AOS.init({ duration: 1200, once: true });
+                    AOS.init({ duration: 1500, once: true });
                 }, 800);
             } else {
-                // RESET
                 handle.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
                 handle.style.transform = 'translateX(0px)';
                 sliderText.style.opacity = 0.4;
             }
         };
 
-        // Desktop Events
-        handle.addEventListener('mousedown', startDrag);
-        window.addEventListener('mousemove', moveDrag);
-        window.addEventListener('mouseup', endDrag);
-
-        // Mobile Events
-        handle.addEventListener('touchstart', startDrag);
-        window.addEventListener('touchmove', moveDrag);
-        window.addEventListener('touchend', endDrag);
+        handle.addEventListener('mousedown', startDrag); window.addEventListener('mousemove', moveDrag); window.addEventListener('mouseup', endDrag);
+        handle.addEventListener('touchstart', startDrag); handle.addEventListener('touchmove', moveDrag); handle.addEventListener('touchend', endDrag);
     </script>
 </body>
 </html>
+
