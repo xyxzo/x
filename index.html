@@ -1,111 +1,263 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Rock Paper Scissor</title>
-  <style>
-    body {
-      font-family: system-ui, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      background: #0f172a;
-      color: #e5e7eb;
-    }
-    h1 { margin-bottom: 0.5rem; }
-    .choices {
-      display: flex;
-      gap: 1rem;
-      margin: 1rem 0;
-    }
-    button {
-      padding: 0.6rem 1.2rem;
-      border-radius: 999px;
-      border: none;
-      cursor: pointer;
-      font-size: 1rem;
-      background: #1d4ed8;
-      color: white;
-    }
-    button:hover { background: #2563eb; }
-    #tryAgainBtn {
-      margin-top: 1rem;
-      display: none;
-      background: #f97316;
-    }
-    #result {
-      margin-top: 0.5rem;
-      font-weight: 600;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deity | Polymath & Strategist</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            --gold: #d4af37;
+            --matte-black: #080808;
+            --charcoal: #121212;
+        }
+
+        body {
+            background-color: var(--matte-black);
+            color: #e5e7eb;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .serif { font-family: 'Playfair Display', serif; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: var(--gold); }
+
+        /* Background Glow Mesh */
+        .bg-mesh {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 15% 15%, rgba(212, 175, 55, 0.07) 0%, transparent 35%),
+                radial-gradient(circle at 85% 85%, rgba(255, 255, 255, 0.03) 0%, transparent 35%);
+            z-index: -1;
+        }
+
+        /* Entrance Overlay Styling */
+        #entrance-overlay {
+            background-color: #050505;
+            transition: opacity 1.2s cubic-bezier(0.65, 0, 0.35, 1), visibility 1.2s;
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Navigation Hover Effect */
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0; height: 1px;
+            bottom: -4px; left: 0;
+            background-color: var(--gold);
+            transition: width 0.4s ease;
+        }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link:hover { color: var(--gold); }
+
+        /* Hidden class for main content */
+        .content-hidden {
+            opacity: 0;
+            transform: scale(0.98);
+            pointer-events: none;
+        }
+        
+        .content-visible {
+            opacity: 1;
+            transform: scale(1);
+            transition: all 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+    </style>
 </head>
-<body>
-  <h1>Rock Paper Scissor</h1>
-  <p>Choose one option to play.</p>
+<body class="overflow-hidden">
 
-  <div class="choices">
-    <button onclick="play('rock')">Rock</button>
-    <button onclick="play('paper')">Paper</button>
-    <button onclick="play('scissor')">Scissor</button>
-  </div>
+    <div id="entrance-overlay" class="fixed inset-0 z-[100] flex flex-col justify-center items-center">
+        <div class="text-center mb-16" data-aos="fade-in">
+            <h2 class="serif text-white text-3xl tracking-[0.6em] uppercase opacity-80">Deity</h2>
+            <p class="text-[9px] tracking-[0.4em] text-white/30 mt-4 uppercase font-light">Verification Required</p>
+        </div>
 
-  <div id="status"></div>
-  <div id="result"></div>
-  <button id="tryAgainBtn" onclick="resetGame()">Try Again</button>
+        <div class="relative w-80 h-20 bg-white/5 rounded-full border border-white/10 p-2 backdrop-blur-md shadow-2xl">
+            <div id="slider-text" class="absolute inset-0 flex items-center justify-center text-[10px] tracking-[0.4em] uppercase text-white/40 pointer-events-none select-none">
+                Slide to Access
+            </div>
+            <div id="slider-handle" class="w-16 h-16 bg-[#d4af37] rounded-full flex items-center justify-center cursor-grab active:cursor-grabbing shadow-[0_0_25px_rgba(212,175,55,0.4)] transition-transform duration-100 ease-out">
+                <i data-lucide="chevron-right" class="text-black w-6 h-6"></i>
+            </div>
+        </div>
+    </div>
 
-  <script>
-    const statusDiv = document.getElementById('status');
-    const resultDiv = document.getElementById('result');
-    const tryAgainBtn = document.getElementById('tryAgainBtn');
+    <div class="bg-mesh"></div>
 
-    const choices = ['rock', 'paper', 'scissor'];
+    <main id="main-content" class="content-hidden">
+        
+        <nav class="fixed top-0 w-full z-50 glass">
+            <div class="max-w-7xl mx-auto px-8 h-24 flex items-center justify-between">
+                <a href="#" class="serif text-2xl tracking-[0.4em] text-[#d4af37]">DEITY</a>
+                <div class="hidden md:flex space-x-12 text-[10px] uppercase tracking-[0.3em] font-light">
+                    <a href="#about" class="nav-link">Legacy</a>
+                    <a href="#projects" class="nav-link">Expertise</a>
+                    <a href="mailto:deityxterror@gmail.com" class="nav-link">Contact</a>
+                </div>
+            </div>
+        </nav>
 
-    function getBotChoice() {
-      const index = Math.floor(Math.random() * 3);
-      return choices[index];
-    }
+        <section class="h-screen flex flex-col justify-center items-center px-6 relative">
+            <div class="text-center">
+                <h1 class="serif text-7xl md:text-[12rem] text-white leading-none mb-8 tracking-tighter" data-aos="fade-up" data-aos-duration="2000">
+                    Deity
+                </h1>
+                <div class="w-24 h-[1px] bg-[#d4af37] mx-auto mb-8" data-aos="width" data-aos-duration="1500"></div>
+                <p class="text-[#d4af37] text-xs md:text-sm tracking-[0.4em] uppercase font-light max-w-2xl leading-relaxed" data-aos="fade-up" data-aos-delay="500">
+                    Polymath <span class="text-white/20 mx-2">|</span> 
+                    Chess Master <span class="text-white font-bold">(ELO: 2550+)</span> <span class="text-white/20 mx-2">|</span> 
+                    Developer <span class="text-white/20 mx-2">|</span> 
+                    Strategist
+                </p>
+            </div>
+            <div class="absolute bottom-12 animate-bounce text-white/10">
+                <i data-lucide="mouse" stroke-width="1"></i>
+            </div>
+        </section>
 
-    function decideWinner(user, bot) {
-      if (user === bot) return 'draw';
-      if (
-        (user === 'rock' && bot === 'scissor') ||
-        (user === 'paper' && bot === 'rock') ||
-        (user === 'scissor' && bot === 'paper')
-      ) {
-        return 'win';
-      }
-      return 'lose';
-    }
+        <section id="about" class="py-48 px-6 bg-white/[0.01]">
+            <div class="max-w-5xl mx-auto">
+                <div class="grid md:grid-cols-12 gap-16">
+                    <div class="md:col-span-5" data-aos="fade-right">
+                        <h2 class="serif text-5xl text-white italic leading-tight">Mastery in <br><span class="text-[#d4af37]">Every Dimension.</span></h2>
+                    </div>
+                    <div class="md:col-span-7 space-y-8 text-gray-400 font-light leading-relaxed text-lg" data-aos="fade-left">
+                        <p>
+                            Driven by a relentless pursuit of excellence, I operate as a polymath with a proven track record across chess, technology, and business. With a Grandmaster-tier ELO of 2550+, my approach to every venture is defined by calculation and long-term strategy.
+                        </p>
+                        <p>
+                            From architecting high-frequency bots and luxury web experiences to managing a portfolio of rental businesses, I bridge the gap between technical complexity and professional luxury.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    function play(userChoice) {
-      const botChoice = getBotChoice();
-      const outcome = decideWinner(userChoice, botChoice);
+        <footer class="py-40 text-center relative overflow-hidden">
+            <div class="relative z-10" data-aos="zoom-in">
+                <h3 class="serif text-6xl text-white mb-16 italic">Let's move.</h3>
+                
+                <div class="flex justify-center space-x-12 mb-16">
+                    <a href="https://instagram.com/deity_terror" class="text-white/30 hover:text-[#d4af37] transition-all transform hover:scale-125">
+                        <i data-lucide="instagram"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/deity_terror" class="text-white/30 hover:text-[#d4af37] transition-all transform hover:scale-125">
+                        <i data-lucide="linkedin"></i>
+                    </a>
+                    <a href="mailto:deityxterror@gmail.com" class="text-white/30 hover:text-[#d4af37] transition-all transform hover:scale-125">
+                        <i data-lucide="mail"></i>
+                    </a>
+                </div>
 
-      statusDiv.textContent = `You: ${userChoice.toUpperCase()} | Bot: ${botChoice.toUpperCase()}`;
+                <a href="mailto:deityxterror@gmail.com" 
+                   class="inline-block px-14 py-6 border border-[#d4af37]/40 text-[#d4af37] rounded-full uppercase text-[11px] tracking-[0.5em] hover:bg-[#d4af37] hover:text-black transition-all duration-700 font-bold shadow-lg">
+                    Secure Consultation
+                </a>
+                
+                <p class="mt-32 text-[8px] tracking-[0.8em] text-white/10 uppercase">
+                    © 2026 Deity Terror / Calculated Excellence
+                </p>
+            </div>
+        </footer>
 
-      if (outcome === 'win') {
-        resultDiv.textContent = 'You win! Redirecting to portfolio...';
-        tryAgainBtn.style.display = 'none';
-        // redirect on win
-        setTimeout(() => {
-          window.location.href = 'https://xyxzo.github.io/Portfolio/';
-        }, 1000);
-      } else if (outcome === 'lose') {
-        resultDiv.textContent = 'You lose! Click "Try Again" to play again.';
-        tryAgainBtn.style.display = 'inline-block';
-      } else {
-        resultDiv.textContent = 'Draw! Click any option to play again.';
-        tryAgainBtn.style.display = 'none';
-      }
-    }
+    </main>
 
-    function resetGame() {
-      statusDiv.textContent = '';
-      resultDiv.textContent = '';
-      tryAgainBtn.style.display = 'none';
-    }
-  </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // 1. Initialize Icons
+        lucide.createIcons();
+
+        // 2. Slider Logic
+        const handle = document.getElementById('slider-handle');
+        const container = handle.parentElement;
+        const overlay = document.getElementById('entrance-overlay');
+        const mainContent = document.getElementById('main-content');
+        const sliderText = document.getElementById('slider-text');
+        
+        let isDragging = false;
+        let startX = 0;
+        const maxSlide = container.offsetWidth - handle.offsetWidth - 16; // 16 for padding
+
+        const startDrag = (e) => {
+            isDragging = true;
+            startX = (e.pageX || e.touches[0].pageX) - handle.offsetLeft;
+            handle.style.transition = 'none';
+        };
+
+        const moveDrag = (e) => {
+            if (!isDragging) return;
+            let x = (e.pageX || e.touches[0].pageX) - startX;
+            if (x < 0) x = 0;
+            if (x > maxSlide) x = maxSlide;
+            handle.style.transform = `translateX(${x}px)`;
+            
+            // Fade out the text as we slide
+            sliderText.style.opacity = (1 - (x / maxSlide)) * 0.4;
+        };
+
+        const endDrag = () => {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            const currentX = new WebKitCSSMatrix(getComputedStyle(handle).transform).m41;
+
+            if (currentX > maxSlide * 0.85) {
+                // SUCCESS
+                handle.style.transition = 'transform 0.3s ease';
+                handle.style.transform = `translateX(${maxSlide}px)`;
+                handle.style.backgroundColor = '#ffffff';
+                
+                // Transition to Main Site
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.style.visibility = 'hidden';
+                    mainContent.classList.remove('content-hidden');
+                    mainContent.classList.add('content-visible');
+                    document.body.classList.remove('overflow-hidden');
+                    // Initialize AOS after reveal
+                    AOS.init({ duration: 1200, once: true });
+                }, 800);
+            } else {
+                // RESET
+                handle.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                handle.style.transform = 'translateX(0px)';
+                sliderText.style.opacity = 0.4;
+            }
+        };
+
+        // Desktop Events
+        handle.addEventListener('mousedown', startDrag);
+        window.addEventListener('mousemove', moveDrag);
+        window.addEventListener('mouseup', endDrag);
+
+        // Mobile Events
+        handle.addEventListener('touchstart', startDrag);
+        window.addEventListener('touchmove', moveDrag);
+        window.addEventListener('touchend', endDrag);
+    </script>
 </body>
 </html>
